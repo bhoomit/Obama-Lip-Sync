@@ -29,7 +29,6 @@ from keras.layers import (LSTM, Dense, Dropout, Embedding, Lambda,
 from keras.models import Sequential, load_model
 from keras.preprocessing.sequence import pad_sequences
 from python_speech_features import logfbank
-from webvtt import WebVTT
 
 predictor_path = 'data/shape_predictor_68_face_landmarks.dat'
 
@@ -349,7 +348,7 @@ filenames = sorted(glob(searchNames))
 # the facial landmark predictor
 detector = dlib.get_frontal_face_detector()
 # predictor = dlib.shape_predictor(args["shape_predictor"])
-predictor = dlib.shape_predictor("shape_predictor_68_face_landmarks.dat")
+predictor = dlib.shape_predictor("data/shape_predictor_68_face_landmarks.dat")
 d = []
 for file in tqdm(filenames):
     img = cv2.imread(file)

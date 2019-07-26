@@ -134,3 +134,5 @@ Pix2PixModel/
 *.tar.gz
 
 *.mp4
+pix2pix_input/*
+a2key_data/*
