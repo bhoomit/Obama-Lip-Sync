@@ -139,39 +139,23 @@ pca = load_pickle('pickles/PCA.pickle')
 # Get the data
 X, y = [], []  # Create the empty lists
 
-print(keyAudio)
-
-(rate, sig) = wav.read(keyAudio)
-print(rate)
-mfccFeat = mfcc(sig, rate)
-fbankFeat = logfbank(sig, rate)
-audio = join_features(mfccFeat, fbankFeat)
-
-video = video_kp[0]
-
-start = (timeDelay - lookBack) if (timeDelay - lookBack > 0) else 0
 for i in range(start, len(audio) - lookBack):
     a = np.array(audio[i:i + lookBack])
     X.append(a)
 
-for i in range(start, len(video) - lookBack):
-    v = np.array(video[i + lookBack - timeDelay]).reshape((1, -1))
-    y.append(v)
-
 X = np.array(X)
-y = np.array(y)
 shapeX = X.shape
-shapey = y.shape
-print('Shapes:', X.shape)
+shapeY = None  # Here
+print(f'ShapesX: {shapeX} :: ShapeY: {shapeY}')
+
 X = X.reshape(-1, X.shape[2])
-y = y.reshape(-1, y.shape[2])
-print('Shapes:', X.shape)
+print('ShapesX:', X.shape)
 
 scalerX = MinMaxScaler(feature_range=(0, 1))
 scalery = MinMaxScaler(feature_range=(0, 1))
 
 X = scalerX.fit_transform(X)
-y = scalery.fit_transform(y)
+# y = scalery.fit_transform(y)
 
 X = X.reshape(shapeX)
 
@@ -194,9 +178,10 @@ else:
     n = len(y_pred)
     kp = kp[:n]
 
+# print(y_pred)
+
 for idx, (x, k) in enumerate(zip(y_pred, kp)):
 
-    #print x
     unit_mouth_kp, N, tilt, mean, unit_kp, keypoints = k[0], k[1], k[2], k[
         3], k[4], k[5]
     kps = getOriginalKeypoints(x, N, tilt, mean)
